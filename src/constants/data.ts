@@ -72,3 +72,16 @@ export const spreadsheetData: SpreadsheetData[] = [
     estValue: "2,800,000",
   },
 ];
+
+export const columns = [
+  "id",
+  "jobRequest",
+  "submitted",
+  "status",
+  "submitter",
+  "url",
+  "assigned",
+  "priority",
+  "dueDate",
+  "estValue",
+];

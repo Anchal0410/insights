@@ -3,7 +3,6 @@ import {
   ChevronDown,
   Search,
   Bell,
-  User,
   Plus,
   EyeOff,
   ArrowUpDown,
@@ -13,35 +12,9 @@ import {
   Share,
   MoreHorizontal,
 } from "lucide-react";
-import { spreadsheetData } from "../constants/data";
-
-const getStatusBadgeColor = (status: string) => {
-  switch (status) {
-    case "In-process":
-      return "bg-yellow-50 text-yellow-700 border border-yellow-200 px-3 py-1";
-    case "Need to start":
-      return "bg-blue-50 text-blue-700 border border-blue-200 px-3 py-1";
-    case "Complete":
-      return "bg-green-50 text-green-700 border border-green-200 px-3 py-1";
-    case "Blocked":
-      return "bg-red-50 text-red-700 border border-red-200 px-3 py-1";
-    default:
-      return "bg-gray-50 text-gray-700 border border-gray-200 px-3 py-1";
-  }
-};
-
-const getPriorityColor = (priority: string) => {
-  switch (priority) {
-    case "High":
-      return "text-red-600";
-    case "Medium":
-      return "text-yellow-600";
-    case "Low":
-      return "text-blue-600";
-    default:
-      return "text-gray-600";
-  }
-};
+import { spreadsheetData, columns } from "../constants/data";
+import { useEffect } from "react";
+import { getStatusBadgeColor, getPriorityColor } from "../utils/lib";
 
 export default function SpreadsheetApp() {
   const [selectedCell, setSelectedCell] = useState<{
@@ -53,19 +26,6 @@ export default function SpreadsheetApp() {
   const [columnWidths, setColumnWidths] = useState([
     48, 288, 128, 128, 144, 144, 144, 96, 128, 128,
   ]);
-
-  const columns = [
-    "id",
-    "jobRequest",
-    "submitted",
-    "status",
-    "submitter",
-    "url",
-    "assigned",
-    "priority",
-    "dueDate",
-    "estValue",
-  ];
 
   const totalRows = spreadsheetData.length + 20;
   const totalCols = columns.length;
@@ -103,7 +63,7 @@ export default function SpreadsheetApp() {
   };
 
   // Handle keyboard navigation
-  React.useEffect(() => {
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!selectedCell) return;
 
@@ -476,7 +436,7 @@ export default function SpreadsheetApp() {
         </div>
 
         {/* Data Rows */}
-        {spreadsheetData.map((row, index) => (
+        {spreadsheetData.map((row) => (
           <div
             key={row.id}
             className="flex border-b border-gray-200 hover:bg-gray-50"
